@@ -43,14 +43,14 @@ public class OrderController {
                         e -> Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error saving order")));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public Mono<OrderDTO> update(@PathVariable String id, @RequestBody OrderDTO orderDTO){
         return service.update(id, orderDTO)
         .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found")))
         .onErrorResume(e -> Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error updating orden")));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public Mono<Void> delete(@PathVariable String id){
         return service.delete(id)
         .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found")))
