@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+
 import com.example.back_order_test.dto.OrderDTO;
 import com.example.back_order_test.services.OrderService;
+import com.example.back_order_test.services.impl.OrderServiceImpl;
 
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
 public class OrderController {
+
 
     private final OrderService service;
 
@@ -52,8 +55,6 @@ public class OrderController {
 
     @DeleteMapping("/{id}")
     public Mono<Void> delete(@PathVariable String id){
-        return service.delete(id)
-        .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found")))
-        .onErrorResume(e -> Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error deleting order")));
+        return service.delete(id);
     }
 }

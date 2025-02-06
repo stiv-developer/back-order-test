@@ -45,7 +45,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Mono<Void> delete(String id) {
-        return repository.deleteById(id);
+        return repository.findById(id)
+                .flatMap(existingOrder -> repository.delete(existingOrder));
     }
     
 }
